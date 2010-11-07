@@ -1,4 +1,10 @@
+require 'player'
+
 class HumanPlayer < Player
+  def initalize(symbol)
+    super(symbol) 
+  end
+
   def choose_move
     puts "Enter a space to move (Row, Col)"
     move = gets.chomp

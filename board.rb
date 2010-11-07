@@ -60,4 +60,20 @@ class Board
 
     return false
   end
+
+  def print_board
+   puts "    0 | 1 | 2 " 
+    (0..@size).each do |row|
+      print "#{row}"
+      (0..@size).each do |col|
+        if not @board[row][col].nil?
+          print " | #{@board[row][col]}" 
+        else
+          print " | -"
+        end
+      end
+      puts ""
+    end
+  end
+
 end
