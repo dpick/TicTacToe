@@ -4,7 +4,7 @@ class Board
   attr_accessor :board, :size
 
   def initialize(size)
-    @board = Array.new(3) { Array.new(3) { nil } }
+    @board = Array.new(size) { Array.new(size) { nil } }
     @size = size - 1
   end
 
