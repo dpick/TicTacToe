@@ -5,7 +5,7 @@ class Board
 
   def initialize(size)
     @board = Array.new(3) { Array.new(3) { nil } }
-    @size = size
+    @size = size - 1
   end
 
   def open_space?(row, col)
@@ -42,11 +42,11 @@ class Board
   end
 
   def win_in_left_diagonal?
-    return check_win_position((0..@size - 1).map { |i| @board[i][i] }) 
+    return check_win_position((0..@size).map { |i| @board[i][i] }) 
   end
 
   def win_in_right_diagonal?
-    return check_win_position((0..@size - 1).map { |i| @board[i][@size - 1 - i] }) 
+    return check_win_position((0..@size).map { |i| @board[i][@size - i] }) 
   end
 
   def check_win_position(win_list)

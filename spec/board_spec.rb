@@ -7,7 +7,7 @@ describe "board tests" do
 
   describe "initialization tests" do
     it "should make a board of size 3" do
-      @board.size.should == 3
+      @board.size.should == 2 
     end
 
     it "should have an empty board" do
@@ -17,8 +17,8 @@ describe "board tests" do
 
   describe "open_space? tests" do
     it "should be true for all spaces after initialization" do
-      (0..@board.size - 1).each do |i|
-        (0..@board.size - 1).each do |j|
+      (0..@board.size).each do |i|
+        (0..@board.size).each do |j|
           @board.open_space?(i, j).should be_true
         end
       end
@@ -130,7 +130,7 @@ describe "board tests" do
 
   describe "win_in_left_diagonal? tests" do
     it "should return true if there is a win in the left diag" do
-      (0..@board.size - 1).each { |i| @board.board[i][i] = 'x' }
+      (0..@board.size).each { |i| @board.board[i][i] = 'x' }
       @board.win_in_left_diagonal?.should be_true
     end
 
@@ -151,7 +151,7 @@ describe "board tests" do
 
   describe "win_in_right_diagonal? tests" do
     it "should return true if there is a win in the right diag" do
-      (0..@board.size - 1).each { |i| @board.board[i][@board.size - 1 - i] = 'x' }
+      (0..@board.size).each { |i| @board.board[i][@board.size - i] = 'x' }
       @board.win_in_right_diagonal?.should be_true
     end
 
