@@ -1,10 +1,11 @@
 class Player
-  attr_accessor :board, :symbol
+  attr_accessor :symbol
 
-  def initialize(board, symbol)
-    @board = board
+  def initialize(symbol)
     @symbol = symbol
   end
 
+  def make_move
 
+  end
 end

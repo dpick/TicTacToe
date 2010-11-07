@@ -8,6 +8,12 @@ class Board
     @size = size - 1
   end
 
+  @@instance = Board.new(3)
+
+  def self.instance
+    return @@instance
+  end
+
   def open_space?(row, col)
     @board[row][col].nil?
   end
