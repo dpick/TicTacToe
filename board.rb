@@ -1,28 +1,59 @@
 require 'pp'
 
 class Board
-  attr_accessor :board, :size
+  attr_accessor :board, :size, :previous_board, :move
 
-  def initialize(size)
-    @board = Array.new(size) { Array.new(size) { nil } }
+  def initialize(size = 3, board = Array.new(size) { Array.new(size) { nil } }, prev = nil)
+    @board = board     
     @size = size - 1
+    @previous_board = prev
+    @move = []
   end
 
-  @@instance = Board.new(3)
+  def value(sym)
+    return 1 if game_over?
+    return 0 if full?
+  end
 
-  def self.instance
-    return @@instance
+  def possible_moves
+    possible_moves = []
+    (0..@size).each do |row|
+      (0..@size).each do |col|
+        possible_moves << [row, col] if @board[row][col].nil?
+      end
+    end
+
+    return possible_moves
   end
 
   def open_space?(row, col)
     @board[row][col].nil?
   end
 
-  def make_move!(row, col, player)
-    return false if not valid_input?(row, col)
-    return @board[row][col] = player if open_space?(row, col)
+  def make_move(row, col, player)
+    return false, self if not valid_input?(row, col)
+    if open_space?(row, col)
+      newBoard = clone_board
+      newBoard[row][col] = player
+      newBoard = Board.new(@size + 1, newBoard, self)
+      newBoard.move << [row, col, player]
 
-    return false
+      return true, newBoard
+    end
+
+    return false, self
+  end
+
+  def clone_board
+    newBoard = []
+    @board.each do |row|
+      tempRow = []
+      row.each do |col|
+        tempRow << col
+      end
+      newBoard << tempRow
+    end
+    return newBoard
   end
 
   def valid_input?(row, col)
@@ -40,6 +71,10 @@ class Board
     result ||= win_in_right_diagonal?
 
     return result
+  end
+
+  def full?
+    @board.flatten.compact.size == (@size + 1) * (@size + 1)
   end
 
   def win_in_rows?
@@ -77,13 +112,13 @@ class Board
         return i, j if col.nil? 
       end
     end
-    
+
     return false
   end
 
   def print_board
-   puts "    0 | 1 | 2 " 
-   puts "-" * 14
+    puts "    0 | 1 | 2 " 
+    puts "-" * 14
     (0..@size).each do |row|
       print "#{row}"
       (0..@size).each do |col|

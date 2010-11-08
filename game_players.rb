@@ -5,7 +5,7 @@ class GamePlayers
   def initialize
     @players_list = Array.new
     @players_list << HumanPlayer.new('X')
-    @players_list << HumanPlayer.new('O')
+    @players_list << ComputerPlayer.new('O')
     @players = player_generator
   end
 

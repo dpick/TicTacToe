@@ -30,17 +30,29 @@ describe "board tests" do
     end
   end
 
-  describe "make_move! tests" do
+  describe "make_move tests" do
     it "should make a move if the space is open" do
-      @board.make_move!(0, 0, 'x')
-      @board.board[0][0].should == 'x'
+      valid, newBoard = @board.make_move(0, 0, 'x')
+      newBoard.board[0][0].should == 'x'
     end
 
     it "should return false if a space is taken" do
-      @board.board[0][0] = 'x'
-      @board.make_move!(0, 0, 'x').should be_false
+      valid, newBoard = @board.make_move(0, 0, 'x')
+      valid, newBoard = newBoard.make_move(0, 0, 'x')
+      valid.should be_false
     end
   end
+
+  describe "full? tests" do
+    it "should be not be full if the board is empty" do
+      @board.full?.should be_false
+    end
+
+    it "should be true if all spaces are taken" do
+      @board.board = Array.new(3) { Array.new(3) { 'X' }}
+      @board.full?.should be_true
+    end
+  end 
 
   describe "check_win_position tests" do
     it "should return true if all the elements in a list are the same" do

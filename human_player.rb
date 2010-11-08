@@ -5,7 +5,7 @@ class HumanPlayer < Player
     super(symbol) 
   end
 
-  def choose_move
+  def choose_move(board)
     puts "Enter a space to move (Row, Col)"
     move = gets.chomp
     move = move.gsub(/ /, '').split(",")

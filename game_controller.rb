@@ -5,7 +5,7 @@ class GameController
   attr_accessor :player_generator
   
   def initialize
-    @board = Board.instance
+    @board = Board.new
     @players = GamePlayers.new
     @current_player = @players.next_player
   end
@@ -15,10 +15,17 @@ class GameController
     while not winner = @board.game_over?
       @board.print_board
 
-      if @current_player.make_move 
+      valid_move, @board = @current_player.make_move(@board)
+
+      if valid_move
         @current_player = @players.next_player
       else
         puts "Invalid move, try again"
+      end
+
+      if @board.full?
+        puts "It was a cats game"
+        return
       end
     end
 
