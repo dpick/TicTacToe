@@ -33,11 +33,13 @@ class Board
   end
 
   def game_over?
-    return true if win_in_rows?
-    return true if win_in_cols?
-    return true if win_in_left_diagonal?
-    return true if win_in_right_diagonal?
-    return false
+    result = nil
+    result ||= win_in_rows?
+    result ||= win_in_cols?
+    result ||= win_in_left_diagonal?
+    result ||= win_in_right_diagonal?
+
+    return result
   end
 
   def win_in_rows?
@@ -81,6 +83,7 @@ class Board
 
   def print_board
    puts "    0 | 1 | 2 " 
+   puts "-" * 14
     (0..@size).each do |row|
       print "#{row}"
       (0..@size).each do |col|

@@ -12,7 +12,7 @@ class GameController
 
   def play_game
     puts banner
-    while not @board.game_over?
+    while not winner = @board.game_over?
       @board.print_board
 
       if @current_player.make_move 
@@ -20,8 +20,11 @@ class GameController
       else
         puts "Invalid move, try again"
       end
-
     end
+
+    @board.print_board
+    puts ""
+    puts "#{winner} was the winner"
   end
 
   def banner

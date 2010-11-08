@@ -4,8 +4,8 @@ require 'generator'
 class GamePlayers
   def initialize
     @players_list = Array.new
-    @players_list << HumanPlayer.new('x')
-    @players_list << HumanPlayer.new('o')
+    @players_list << HumanPlayer.new('X')
+    @players_list << HumanPlayer.new('O')
     @players = player_generator
   end
 
