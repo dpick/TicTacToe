@@ -169,4 +169,53 @@ describe "board tests" do
       @board.win_in_right_diagonal?.should be_false
     end
   end
+
+  describe "next_open_space tests" do
+    it "should return false for a full board" do
+      @board.board = Array.new(3) { Array.new(3) { 'x' } }
+      @board.next_open_space.should be_false
+    end
+
+    it "should return the next open space" do
+      @board.board[0][0] = 'x'
+      row, col = @board.next_open_space
+      row.should == 0
+      col.should == 1
+    end 
+
+    it "should return the next open space" do
+      @board.board[0] = ['x'] * 3
+      row, col = @board.next_open_space
+      row.should == 1
+      col.should == 0
+    end
+  end
+
+  describe "valid_input? tests" do
+    it "should return false if row or col is not a number" do
+      @board.valid_input?(0, 'x').should be_false
+      @board.valid_input?('x', 0).should be_false
+      @board.valid_input?('x', 'x').should be_false
+    end
+
+    it "should return false if row or col is too big" do
+      @board.valid_input?(0, 3).should be_false
+      @board.valid_input?(3, 0).should be_false
+      @board.valid_input?(3, 3).should be_false
+    end
+
+    it "should return false if row or col is too small" do
+      @board.valid_input?(0, -1).should be_false
+      @board.valid_input?(-1, 0).should be_false
+      @board.valid_input?(-1, -1).should be_false
+    end
+
+    it "should return true if the values are good" do
+      (0..@board.size).each do |row|
+        (0..@board.size).each do |col|
+          @board.valid_input?(row, col).should be_true
+        end
+      end
+    end
+  end
 end

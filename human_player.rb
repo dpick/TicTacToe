@@ -10,6 +10,6 @@ class HumanPlayer < Player
     move = gets.chomp
     move = move.gsub(/ /, '').split(",")
 
-    return {:row => move[0], :col => move[1]}
+    return {:row => move[0].to_i, :col => move[1].to_i}
   end
 end

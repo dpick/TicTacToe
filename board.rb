@@ -19,9 +19,17 @@ class Board
   end
 
   def make_move!(row, col, player)
+    return false if not valid_input?(row, col)
     return @board[row][col] = player if open_space?(row, col)
 
     return false
+  end
+
+  def valid_input?(row, col)
+    return false if row.class != Fixnum || col.class != Fixnum
+    return false if row > @size || col > @size
+    return false if row < 0 || col < 0
+    return true
   end
 
   def game_over?
@@ -58,6 +66,16 @@ class Board
   def check_win_position(win_list)
     return win_list[0] if win_list.uniq.size == 1 and not win_list[0].nil?
 
+    return false
+  end
+
+  def next_open_space
+    @board.each_with_index do |row, i|
+      row.each_with_index do |col, j|
+        return i, j if col.nil? 
+      end
+    end
+    
     return false
   end
 
