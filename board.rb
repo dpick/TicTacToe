@@ -28,15 +28,14 @@ class Board
   end
 
   def make_move(position, player)
-    return false if not valid_input(position)
-    return false if not open_space(position)
+    return false if not valid_input(position) or not open_space(position)
     @board[position] = player
   end
 
   def valid_input(position)
     return false unless position.class == Fixnum
     return false if position < 0 or position > @board.length - 1
-    true
+    return true
   end
 
   def game_over?
@@ -52,9 +51,8 @@ class Board
   end
 
   def win_in_set(set)
-    value = @board[set[0]]
     set.each do |position|
-      return false if @board[position] != value 
+      return false if @board[position] != @board[set[0]]
       return false if @board[position].nil?
     end
 
