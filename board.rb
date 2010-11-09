@@ -62,13 +62,9 @@ class Board
   end
 
   def open_moves
-    (0..8).inject([]) do |open, position| 
-      if @board[position].nil?
-        open << position 
-      else
-        open
-      end
-    end
+    moves = []
+    0.upto(8).each { |pos| moves << pos if @board[pos].nil? }
+    return moves
   end
 
   def print_board
