@@ -71,7 +71,7 @@ class Board
     ROWS.each_with_index do |row, i|
       puts '- ' * 5 if (i == 1 or i == 2)
       temp = row.map { |i| @board[i] }
-      temp.each_with_index { |sym, i| temp[i] = '*' if sym.nil? }
+      temp.each_with_index { |sym, i| temp[i] = ' ' if sym.nil? }
       puts temp.join(" | ")
     end
 
