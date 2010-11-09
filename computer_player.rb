@@ -7,35 +7,42 @@ class ComputerPlayer < Player
     super(symbol) 
   end
 
-  def choose_move(board)
-    newBoard = negamax(board, 1, @symbol) 
-
-    while newBoard[:board].previous_board.board != board.board
-      newBoard[:board] = newBoard[:board].previous_board
+  def choose_move
+    best = -10
+    best_move = -1
+    
+    Board.instance.open_moves.each do |possible_move|
+      Board.instance.make_move(possible_move, @symbol)
+      val = -negamax('X')
+      Board.instance.reset_move(possible_move)
+      if val > best
+        best = val
+        best_move = possible_move
+      end
     end
 
-    return {:row => newBoard[:board].move.first[0], :col => newBoard[:board].move.first[1]}
+    return best_move
   end
 
-  def opponent(sym)
-    sym == @symbol ? 'X' : @symbol
+  def negamax(sym)
+    winner = Board.instance.game_over?
+    return 1 if winner == sym
+    return -1 if winner == toggle_symbol(sym)
+
+    best = -1000
+
+    Board.instance.open_moves.each do |move|
+      Board.instance.make_move(move, sym)
+      value = -negamax(toggle_symbol(sym))
+      Board.instance.reset_move(move)
+      best = value if value > best
+    end
+
+    return 0 if best == -1000
+    return best
   end
 
-  def negamax(board, sign, sym)
-    if @symbol == board.game_over? or board.full?
-      return {:value => board.value(@symbol) * sign,
-              :board => board}
-    end
-
-    max = {:value => -1000, :board => board}
-
-    board.possible_moves.each do |row, col|
-      valid, newBoard = board.make_move(row, col, sym)
-
-      temp = negamax(newBoard, sign * -1, opponent(sym))
-      max = temp if temp[:value] > max[:value]
-    end
-
-    return max
+  def toggle_symbol(sym)
+    sym == 'O' ? 'X' : 'O'
   end
 end

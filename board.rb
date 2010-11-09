@@ -1,135 +1,78 @@
-require 'pp'
-
 class Board
-  attr_accessor :board, :size, :previous_board, :move
+  attr_accessor :board
 
-  def initialize(size = 3, board = Array.new(size) { Array.new(size) { nil } }, prev = nil)
-    @board = board     
-    @size = size - 1
-    @previous_board = prev
-    @move = []
+  ROWS = [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
+  COLS = [[0, 3, 6], [1, 4, 7], [2, 5, 8]]
+  DIAGONALS = [[0, 4, 8], [2, 4, 6]]
+
+  def initialize(board = [nil] * 9)
+    @board = board
+  end
+  
+  @@instance = Board.new
+
+  def self.instance
+    return @@instance
   end
 
-  def value(sym)
-    return 1 if game_over?
-    return 0 if full?
+  def [](position)
+    @board[position]
   end
 
-  def possible_moves
-    possible_moves = []
-    (0..@size).each do |row|
-      (0..@size).each do |col|
-        possible_moves << [row, col] if @board[row][col].nil?
-      end
-    end
-
-    return possible_moves
+  def open_space(position)
+    @board[position].nil? 
   end
 
-  def open_space?(row, col)
-    @board[row][col].nil?
+  def reset_move(position)
+    @board[position] = nil
   end
 
-  def make_move(row, col, player)
-    return false, self if not valid_input?(row, col)
-    if open_space?(row, col)
-      newBoard = clone_board
-      newBoard[row][col] = player
-      newBoard = Board.new(@size + 1, newBoard, self)
-      newBoard.move << [row, col, player]
-
-      return true, newBoard
-    end
-
-    return false, self
+  def make_move(position, player)
+    return false if not valid_input(position)
+    return false if not open_space(position)
+    @board[position] = player
   end
 
-  def clone_board
-    newBoard = []
-    @board.each do |row|
-      tempRow = []
-      row.each do |col|
-        tempRow << col
-      end
-      newBoard << tempRow
-    end
-    return newBoard
-  end
-
-  def valid_input?(row, col)
-    return false if row.class != Fixnum || col.class != Fixnum
-    return false if row > @size || col > @size
-    return false if row < 0 || col < 0
-    return true
+  def valid_input(position)
+    return false unless position.class == Fixnum
+    return false if position < 0 or position > @board.length - 1
+    true
   end
 
   def game_over?
-    result = nil
-    result ||= win_in_rows?
-    result ||= win_in_cols?
-    result ||= win_in_left_diagonal?
-    result ||= win_in_right_diagonal?
-
-    return result
-  end
-
-  def full?
-    @board.flatten.compact.size == (@size + 1) * (@size + 1)
-  end
-
-  def win_in_rows?
-    return win_in_row_or_col?(@board)
-  end
-
-  def win_in_cols?
-    return win_in_row_or_col?(@board.transpose)
-  end
-
-  def win_in_row_or_col?(board)
-    result = nil
-    board.each { |set| result ||= check_win_position(set) }
-
-    return result
-  end
-
-  def win_in_left_diagonal?
-    return check_win_position((0..@size).map { |i| @board[i][i] }) 
-  end
-
-  def win_in_right_diagonal?
-    return check_win_position((0..@size).map { |i| @board[i][@size - i] }) 
-  end
-
-  def check_win_position(win_list)
-    return win_list[0] if win_list.uniq.size == 1 and not win_list[0].nil?
+    ROWS.each { |row| return @board[row[0]] if win_in_set(row) }
+    COLS.each { |col| return @board[col[0]] if win_in_set(col) }
+    DIAGONALS.each { |diag| return @board[diag[0]] if win_in_set(diag) }
 
     return false
   end
 
-  def next_open_space
-    @board.each_with_index do |row, i|
-      row.each_with_index do |col, j|
-        return i, j if col.nil? 
-      end
+  def win_in_set(set)
+    value = @board[set[0]]
+    set.each do |position|
+      return false if @board[position] != value 
+      return false if @board[position].nil?
     end
 
-    return false
+    return true
+  end
+
+  def open_moves
+    (0..8).inject([]) do |open, position| 
+      if @board[position].nil?
+        open << position 
+      else
+        open
+      end
+    end
   end
 
   def print_board
-    puts "    0 | 1 | 2 " 
-    puts "-" * 14
-    (0..@size).each do |row|
-      print "#{row}"
-      (0..@size).each do |col|
-        if not @board[row][col].nil?
-          print " | #{@board[row][col]}" 
-        else
-          print " | -"
-        end
-      end
-      puts ""
+    @board.each_with_index do |piece, i|
+      puts "" if i % 3 == 0
+      print "#{piece} | " unless piece.nil?
+      print "- | " if piece.nil?
     end
+    puts ""
   end
-
 end

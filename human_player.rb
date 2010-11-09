@@ -5,11 +5,10 @@ class HumanPlayer < Player
     super(symbol) 
   end
 
-  def choose_move(board)
-    puts "Enter a space to move (Row, Col)"
+  def choose_move
+    puts "Enter a number 0-8"
     move = gets.chomp
-    move = move.gsub(/ /, '').split(",")
 
-    return {:row => move[0].to_i, :col => move[1].to_i}
+    return move.to_i
   end
 end

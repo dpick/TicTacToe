@@ -5,13 +5,10 @@ class Player
     @symbol = symbol
   end
 
-  def make_move(board)
-    move = choose_move(board)
-    board.make_move(move[:row], move[:col], @symbol)
+  def make_move
+    Board.instance.make_move(choose_move, @symbol)
   end
 
-  def choose_move(board)
-    row, col = board.next_open_space
-    return {:row => row, :col => col}
+  def choose_move
   end
 end
