@@ -68,6 +68,11 @@ describe "board tests" do
       @board.make_move(4, 'X')
       @board.open_moves.should == [0,2,3,5,6,7,8]
     end
+
+    it "should return an empty array if there are no open moves" do
+      (0..8).each { |pos| @board.make_move(pos, 'X') }
+      @board.open_moves.should == []
+    end
   end
 
   describe "win_in_set tests" do

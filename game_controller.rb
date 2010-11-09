@@ -21,7 +21,9 @@ class GameController
         puts "Invalid move, try again"
       end
 
-      if @board.open_moves.nil?
+      if @board.open_moves.length == 0
+        @board.print_board
+        puts ''
         puts "It was a cats game"
         return
       end
