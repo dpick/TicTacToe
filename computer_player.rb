@@ -1,5 +1,4 @@
 require 'player'
-require 'pp'
 
 class ComputerPlayer < Player
 

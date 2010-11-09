@@ -6,7 +6,7 @@ class HumanPlayer < Player
   end
 
   def choose_move
-    puts "Enter a number 0-8"
+    puts "Enter a number [0-8]"
     move = gets.chomp
     puts ""
 

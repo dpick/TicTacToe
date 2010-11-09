@@ -13,6 +13,7 @@ class GamePlayers
     @players.next
   end
 
+  #probably could have used fibers here but didn't want to require ruby 1.9.2
   def player_generator
     Generator.new do |g|
       while true:
