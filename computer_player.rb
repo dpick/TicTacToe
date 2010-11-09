@@ -13,7 +13,7 @@ class ComputerPlayer < Player
     
     Board.instance.open_moves.each do |possible_move|
       Board.instance.make_move(possible_move, @symbol)
-      val = -negamax('X')
+      val = -negamax(toggle_symbol(@symbol))
       Board.instance.reset_move(possible_move)
       if val > best
         best = val
