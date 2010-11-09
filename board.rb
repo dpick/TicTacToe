@@ -47,6 +47,10 @@ class Board
     return false
   end
 
+  def tie_game?
+    open_moves.length == 0
+  end
+
   def win_in_set(set)
     value = @board[set[0]]
     set.each do |position|

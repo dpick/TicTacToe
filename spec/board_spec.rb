@@ -136,4 +136,22 @@ describe "board tests" do
       @board.game_over?.should be_false
     end
   end
+
+  describe "tie_game? tests" do
+    it "should return false for a new game" do
+      @board.tie_game?.should be_false
+    end
+
+    it "should return false for a game with a few moves made" do
+      @board.make_move(0, 'X')
+      @board.make_move(1, 'O')
+      @board.make_move(8, 'X')
+      @board.tie_game?.should be_false
+    end
+
+    it "should return true for a full board" do
+      0.upto(8).each { |pos| @board.make_move(pos, 'X') }
+      @board.tie_game?.should be_true
+    end
+  end
 end

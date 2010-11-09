@@ -21,7 +21,7 @@ class GameController
         puts "Invalid move, try again"
       end
 
-      if tie_game
+      if @board.tie_game?
         @board.print_board
         puts "\nIt was a cats game"
         return
@@ -31,10 +31,6 @@ class GameController
     @board.print_board
     puts ""
     puts "#{winner} was the winner"
-  end
-
-  def tie_game
-    @board.open_moves.length == 0
   end
 
   def banner
