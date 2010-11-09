@@ -10,6 +10,9 @@ class ComputerPlayer < Player
     best = -10
     best_move = -1
     
+    puts "The AI is thinking..."
+    puts ""
+
     Board.instance.open_moves.each do |possible_move|
       Board.instance.make_move(possible_move, @symbol)
       val = -negamax(toggle_symbol(@symbol))
