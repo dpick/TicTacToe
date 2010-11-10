@@ -61,7 +61,7 @@ class Board
 
   def open_moves
     moves = []
-    0.upto(8).each { |pos| moves << pos if @board[pos].nil? }
+    0.upto(@board.length - 1).each { |pos| moves << pos if @board[pos].nil? }
     return moves
   end
 
