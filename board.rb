@@ -60,9 +60,7 @@ class Board
   end
 
   def open_moves
-    moves = []
-    0.upto(@board.length - 1).each { |pos| moves << pos if @board[pos].nil? }
-    return moves
+    0.upto(@board.length - 1).select { |pos| @board[pos].nil? }
   end
 
   def print_board
