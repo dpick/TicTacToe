@@ -2,7 +2,8 @@ require File.dirname(__FILE__) + '/spec_helper'
 
 describe "game_players tests" do
   before(:each) do
-    @game_players = GamePlayers.new
+    @board = Board.new
+    @game_players = GamePlayers.new(@board, [HumanPlayer.new('X', @board), ComputerPlayer.new('O', @board)])
   end
 
   it "should return player X first" do

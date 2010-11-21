@@ -2,10 +2,6 @@ require 'player'
 
 class ComputerPlayer < Player
 
-  def initalize(symbol)
-    super(symbol) 
-  end
-
   def choose_move
     best = -10
     best_move = -1
@@ -13,10 +9,10 @@ class ComputerPlayer < Player
     puts "The AI is thinking..."
     puts ""
 
-    Board.instance.open_moves.each do |possible_move|
-      Board.instance.make_move(possible_move, @symbol)
+    @board.open_moves.each do |possible_move|
+      @board.make_move(possible_move, @symbol)
       val = -negamax(toggle_symbol(@symbol))
-      Board.instance.reset_move(possible_move)
+      @board.reset_move(possible_move)
       if val > best
         best = val
         best_move = possible_move
@@ -27,16 +23,16 @@ class ComputerPlayer < Player
   end
 
   def negamax(sym)
-    winner = Board.instance.game_over?
+    winner = @board.game_over?
     return 1 if winner == sym
     return -1 if winner == toggle_symbol(sym)
 
     best = -1000
 
-    Board.instance.open_moves.each do |move|
-      Board.instance.make_move(move, sym)
+    @board.open_moves.each do |move|
+      @board.make_move(move, sym)
       value = -negamax(toggle_symbol(sym))
-      Board.instance.reset_move(move)
+      @board.reset_move(move)
       best = value if value > best
     end
 

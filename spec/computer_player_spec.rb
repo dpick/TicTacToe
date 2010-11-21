@@ -2,7 +2,8 @@ require File.dirname(__FILE__) + '/spec_helper'
 
 describe "computer player tests" do
   before(:each) do
-    @player = ComputerPlayer.new('x')
+    @board = Board.new
+    @player = ComputerPlayer.new('x', @board)
   end
 
   describe "toggle_symbol tests" do

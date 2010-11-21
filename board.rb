@@ -9,12 +9,6 @@ class Board
     @board = board
   end
   
-  @@instance = Board.new
-
-  def self.instance
-    return @@instance
-  end
-
   def [](position)
     @board[position]
   end

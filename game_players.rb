@@ -2,10 +2,8 @@ Dir["*player.rb"].each { |file| require file }
 require 'generator'
 
 class GamePlayers
-  def initialize
-    @players_list = Array.new
-    @players_list << HumanPlayer.new('X')
-    @players_list << ComputerPlayer.new('O')
+  def initialize(player_list)
+    @players_list = player_list
     @players = player_generator
   end
 
